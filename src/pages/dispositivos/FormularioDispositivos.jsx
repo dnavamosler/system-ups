@@ -73,7 +73,8 @@ const FormularioDispositivos = ({ update }) => {
                     equiposRespaldo: [],
                     bateria: false,
                     byPass: false,
-                    rackApc: false
+                    rackApc: false,
+                    mantenimientos: []
                   }}
                   render={({ values, setFieldValue }) => (
                     <Grid container spacing="3">
@@ -125,6 +126,7 @@ const FormularioDispositivos = ({ update }) => {
                         render={({ field }) => (
                           <Grid item xs="12" md="6">
                             <FechaPicker
+                              label="Fecha de instalación"
                               {...field}
                               onChange={date => {
                                 setFieldValue(
@@ -250,6 +252,25 @@ const FormularioDispositivos = ({ update }) => {
                         )}
                       />
                       {/***************************************** */}
+                      {/************** Comentarios */}
+                      <Grid item xs="12" md="6">
+                        <Field
+                          name="comentarios"
+                          render={({ field }) => {
+                            return (
+                              <TextField
+                                label="Comentarios adicionales"
+                                {...field}
+                                multiline
+                                rowsMax="6"
+                                fullWidth
+                                variant="outlined"
+                              />
+                            );
+                          }}
+                        />
+                      </Grid>
+                      {/***************************************** */}
                       {/************** otros */}
                       <Grid item xs="12" md="6">
                         <Grid container spacing="1" justify="space-between">
@@ -277,6 +298,7 @@ const FormularioDispositivos = ({ update }) => {
                             )}
                           />
                           {/**************************************************** */}
+
                           {/**************************************************** */}
                           <Field
                             name="rackApc"
@@ -287,11 +309,21 @@ const FormularioDispositivos = ({ update }) => {
                             )}
                           />
                           {/**************************************************** */}
+                          <Field
+                            name="ping"
+                            render={({ field }) => (
+                              <Grid item>
+                                <MySwitch {...field} label="Ping en red" />
+                              </Grid>
+                            )}
+                          />
+                          {/**************************************************** */}
                         </Grid>
                       </Grid>
                       {/************** EQUIPOS CONECTADOS */}
                       <Grid item xs="12" md="6">
                         <CreableList
+                          label="Equipos"
                           onChange={e => {
                             setFieldValue("equiposRespaldo", [
                               e,
@@ -325,6 +357,35 @@ const FormularioDispositivos = ({ update }) => {
                         />
                       </Grid>
                       {/***************************************** */}
+                      {/************** Historial de mantenimiento */}
+                      {/* <Grid item xs="12" md="6">
+                        <CreableList
+                          date
+                          label="Mantenimiento"
+                          onChange={e => {
+                            setFieldValue("mantenimientos", [
+                              {
+                                label: e.format("DD/MM/YYYY"),
+                                value: e.format("DD/MM/YYYY")
+                              },
+                              ...values.mantenimientos
+                            ]);
+                          }}
+                          lista={values.mantenimientos}
+                          titulo="Lista de mantenimientos"
+                          DeleteItem={e => {
+                            setFieldValue(
+                              "mantenimientos",
+                              values.mantenimientos.filter(
+                                item => item.value != e
+                              )
+                            );
+                          }}
+                        />
+                      </Grid> */}
+                      {/***************************************** */}
+                      {/***************************************** */}
+
                       <Grid item xs="12">
                         <Grid container spacing="3">
                           <Grid item xs="12">

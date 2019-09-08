@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Divider, IconButton, Icon } from "@material-ui/core";
 import CreableSelect from "./CreableSelect";
 import Empty from "../Empty";
+import FechaPicker from "./FechaPicker";
 /****************************************************************************************/
 const CreableList = ({
   titulo,
@@ -14,7 +15,8 @@ const CreableList = ({
   label,
   placeholder,
   DeleteItem,
-  lista
+  lista,
+  date
 }) => {
   const classes = useStyles();
   return (
@@ -25,18 +27,20 @@ const CreableList = ({
             <Grid item xs="12">
               <h3>{titulo}</h3>
             </Grid>
+
             <Grid item xs="12">
-              <Divider />
-            </Grid>
-            <Grid item xs="12">
-              <CreableSelect
-                suggestions={suggestions}
-                onChange={onChange}
-                crear={crear}
-                value={value}
-                label={label}
-                placeholder={placeholder}
-              />
+              {date ? (
+                <FechaPicker onChange={onChange} />
+              ) : (
+                <CreableSelect
+                  suggestions={suggestions}
+                  onChange={onChange}
+                  crear={crear}
+                  value={value}
+                  label={label}
+                  placeholder={placeholder}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>

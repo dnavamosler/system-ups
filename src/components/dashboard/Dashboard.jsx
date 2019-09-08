@@ -27,6 +27,7 @@ import { getSALA } from "../../shared/utils/reducers/sala/Actions";
 import { ToastProvider } from "react-toast-notifications";
 import { getEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
 import { getMANTENIMIENTO } from "../../shared/utils/reducers/mantenimiento/Actions";
+import { getCONFIGURACION } from "../../shared/utils/reducers/configuracion/Actions";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: 20,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -120,6 +121,7 @@ const Dashboard = ({ children }) => {
     dispatch(getSALA());
     dispatch(getEQUIPOS_RESPALDO());
     dispatch(getMANTENIMIENTO());
+    dispatch(getCONFIGURACION());
   }, []);
 
   const classes = useStyles();

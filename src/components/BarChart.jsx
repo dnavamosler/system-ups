@@ -45,13 +45,13 @@ const MyBarChart = ({ data, label = "" }) => {
   return (
     <BarChart
       width={400}
-      height={180}
+      height={170}
       data={data}
       margin={{
         top: 5,
         right: 30,
         left: 20,
-        bottom: 5
+        bottom: 15
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
@@ -62,7 +62,7 @@ const MyBarChart = ({ data, label = "" }) => {
 
       <Bar
         style={{
-          marginTop: 20
+          marginTop: 30
         }}
         dataKey={label}
         fill="#82ca9d"

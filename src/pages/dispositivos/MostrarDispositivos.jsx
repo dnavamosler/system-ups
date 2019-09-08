@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 /****************************************************************************************/
-import { Grid, Divider, IconButton, Icon, Box } from "@material-ui/core";
+import {
+  Grid,
+  Divider,
+  IconButton,
+  Icon,
+  Box,
+  TextField,
+  Drawer,
+  Typography
+} from "@material-ui/core";
 import HeaderPage from "../../components/HeaderPage";
 import Empty from "../../components/Empty";
 import Card from "../../components/Card";
@@ -10,10 +19,97 @@ import ButtonSTD from "../../components/ButtonSTD";
 import { Link } from "react-router-dom";
 import { deleteDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
 import OptionButton from "../../components/Options";
+import TextWithAdorn from "../../components/pickers/TextWithAdorn";
+import { Formik, Field } from "formik";
+import {
+  addCONFIGURACION,
+  updateCONFIGURACION
+} from "../../shared/utils/reducers/configuracion/Actions";
 const MostrarDispositivos = ({}) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const dispositivos = useSelector(state => state.DISPOSITIVOS).data;
+
+  const [contenidoDrawer, setContenidoDrawer] = useState(null);
+  const configuracion = useSelector(state => state.CONFIGURACION).data;
+  const setearPeriodo = fecha => {
+    if (configuracion.length < 1) dispatch(addCONFIGURACION(fecha));
+    else {
+      dispatch(updateCONFIGURACION(fecha, configuracion[0].key));
+    }
+    setContenidoDrawer(null);
+  };
+
+  const configure = () => {
+    if (contenidoDrawer == null)
+      setContenidoDrawer(
+        <Grid
+          container
+          spacing="2"
+          style={{
+            padding: 30,
+            width: "100%"
+          }}
+        >
+          <Grid item xs="12">
+            <Typography component="p" variant="h6">
+              Configurar periodo de mantenimiento
+            </Typography>
+            <Divider />
+          </Grid>
+          <Formik
+            initialValues={
+              configuracion.length > 0
+                ? configuracion[0]
+                : {
+                    periodo: 0
+                  }
+            }
+            render={({ values, setFieldValue }) => (
+              <>
+                <Grid item xs="12">
+                  <Field
+                    name="periodo"
+                    render={({ field }) => (
+                      <TextWithAdorn
+                        label="periodo"
+                        adorno="meses"
+                        type="number"
+                        {...field}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item>
+                  <ButtonSTD
+                    icon="save"
+                    color="primary"
+                    onClick={() => {
+                      setearPeriodo(values);
+                    }}
+                  >
+                    Guardar
+                  </ButtonSTD>
+                </Grid>
+                <Grid item>
+                  <ButtonSTD
+                    icon="close"
+                    onClick={() => {
+                      setContenidoDrawer(null);
+                    }}
+                  >
+                    cerrar
+                  </ButtonSTD>
+                </Grid>
+              </>
+            )}
+          ></Formik>
+        </Grid>
+      );
+    else {
+      setContenidoDrawer(null);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -33,6 +129,12 @@ const MostrarDispositivos = ({}) => {
                   </ButtonSTD>
                 </Link>
               </Grid>
+              <Grid item>
+                <ButtonSTD onClick={configure}>
+                  configurar Mantenimientos
+                </ButtonSTD>
+              </Grid>
+
               <Grid
                 item
                 style={{
@@ -54,6 +156,10 @@ const MostrarDispositivos = ({}) => {
           </Card>
         </Grid>
       </Grid>
+
+      <Drawer variant="persistent" anchor="right" open={contenidoDrawer}>
+        {contenidoDrawer}
+      </Drawer>
     </div>
   );
 };

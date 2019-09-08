@@ -29,20 +29,20 @@ export const mainListItems = (
     <ItemMenu link="/dispositivos" icon="devices">
       Dispositivos
     </ItemMenu>
+    <ItemMenu
+      link="/acerca_de"
+      icon="assignment
+"
+    >
+      Acerca de
+    </ItemMenu>
   </div>
 );
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Otros</ListSubheader>
-    <Link to="/acerca_de">
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Acerca de" />
-      </ListItem>
-    </Link>
+    {/* <ListSubheader inset>Otros</ListSubheader> */}
+
     {/* <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />

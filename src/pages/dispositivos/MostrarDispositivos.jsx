@@ -12,7 +12,8 @@ import { deleteDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Act
 import OptionButton from "../../components/Options";
 const MostrarDispositivos = ({}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const dispositivos = useSelector(state => state.DISPOSITIVOS).data;
 
   return (
     <div className={classes.root}>
@@ -24,13 +25,23 @@ const MostrarDispositivos = ({}) => {
         {/**Funciones */}
         <Grid item xs="12">
           <Card>
-            <Grid container spacing="1">
+            <Grid container spacing="1" alignItems="center">
               <Grid item>
                 <Link to="/dispositivos/registrar">
                   <ButtonSTD color="primary" icon="add">
                     Nuevo Dispositivo
                   </ButtonSTD>
                 </Link>
+              </Grid>
+              <Grid
+                item
+                style={{
+                  marginLeft: "auto"
+                }}
+              >
+                <span style={{ fontWeight: 600 }}>
+                  Hay {dispositivos.length} UPS Registrados
+                </span>
               </Grid>
               <Grid item xs="12">
                 {" "}
@@ -109,8 +120,6 @@ const ListaDispositivos = ({}) => {
 };
 
 const DispositivoItem = ({ data }) => {
-  console.log(data);
-
   const dispatch = useDispatch();
   /*********************************************************** */
   const ubicacion = useSelector(state => state.UBICACION);

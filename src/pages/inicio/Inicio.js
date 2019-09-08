@@ -5,7 +5,7 @@ import { Grid, Paper } from "@material-ui/core";
 
 //dependencies
 import Chart from "./Chart";
-import Deposits from "./Deposits";
+import CantidadUps from "./cantidadUps";
 import Orders from "./Orders";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
@@ -22,10 +22,10 @@ const Inicio = () => {
           <Chart />
         </Paper>
       </Grid>
-      {/* Recent Deposits */}
+      {/* Recent cantidadUps */}
       <Grid item xs={12} md={4} lg={3}>
         <Paper className={fixedHeightPaper}>
-          <Deposits />
+          <CantidadUps />
         </Paper>
       </Grid>
       {/* Recent Orders */}

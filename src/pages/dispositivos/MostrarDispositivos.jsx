@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 /****************************************************************************************/
-import { Grid } from "@material-ui/core";
+import { Grid, Divider, IconButton, Icon, Box } from "@material-ui/core";
 import HeaderPage from "../../components/HeaderPage";
-import { addDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+import Empty from "../../components/Empty";
 import Card from "../../components/Card";
 import ButtonSTD from "../../components/ButtonSTD";
 import { Link } from "react-router-dom";
-const MostrarDispositivos = (
-  {
-    /**000 */
-  }
-) => {
+import { deleteDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+const MostrarDispositivos = ({}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -34,6 +31,13 @@ const MostrarDispositivos = (
                   </ButtonSTD>
                 </Link>
               </Grid>
+              <Grid item xs="12">
+                {" "}
+                <Divider />
+              </Grid>
+              <Grid item xs="12">
+                <ListaDispositivos />
+              </Grid>
             </Grid>
           </Card>
         </Grid>
@@ -47,3 +51,144 @@ const useStyles = makeStyles(({}) => ({
   root: {}
 }));
 export default MostrarDispositivos;
+
+const ListaDispositivos = ({}) => {
+  const dispositivos = useSelector(state => state.DISPOSITIVOS).data;
+
+  return (
+    <Grid container spacing="1">
+      <Grid
+        item
+        xs="12"
+        style={{
+          padding: "20px 0"
+        }}
+      >
+        <Grid container>
+          {/********************* */}
+          <Grid item xs="3">
+            Nombre
+          </Grid>
+          {/********************* */}
+          {/********************* */}
+          <Grid item xs="3">
+            Modelo
+          </Grid>
+          {/********************* */}
+          {/********************* */}
+          <Grid item xs="2">
+            Marca
+          </Grid>
+          {/********************* */}
+          {/********************* */}
+          <Grid item xs="3">
+            Ubicación / sala
+          </Grid>
+          {/********************* */}
+          {/********************* */}
+          <Grid item xs="1">
+            Opciones
+          </Grid>
+          {/********************* */}
+          <Grid item xs="12">
+            <Divider />
+          </Grid>
+        </Grid>
+      </Grid>
+      {dispositivos.length < 1 ? (
+        <Grid item xs="12">
+          {" "}
+          <Empty />{" "}
+        </Grid>
+      ) : (
+        dispositivos.map(item => <DispositivoItem data={item} />)
+      )}
+    </Grid>
+  );
+};
+
+const DispositivoItem = ({ data }) => {
+  console.log(data);
+
+  const dispatch = useDispatch();
+  /*********************************************************** */
+  const ubicacion = useSelector(state => state.UBICACION);
+  const [cuUbicacion, setCuUbicacion] = useState("N/A");
+  useEffect(() => {
+    try {
+      const find = ubicacion.data.find(item => item.key == data.ubicacion);
+      setCuUbicacion(find.descripcion);
+    } catch (error) {}
+  }, [ubicacion]);
+
+  /*********************************************************** */
+  /*********************************************************** */
+  const sala = useSelector(state => state.SALA);
+  const [cuSala, setCuSala] = useState("N/A");
+  useEffect(() => {
+    try {
+      const find = sala.data.find(item => item.key == data.sala);
+      setCuSala(find.descripcion);
+    } catch (error) {}
+  }, [sala]);
+
+  /*********************************************************** */
+
+  const deleteDispositivo = key => {
+    dispatch(deleteDISPOSITIVOS(key));
+  };
+
+  return (
+    <Grid item xs="12">
+      <Card>
+        <Grid container spacing="1" alignItems="center">
+          {/****************************************** */}
+          <Grid item xs="12" sm="3">
+            <span
+              style={{
+                fontWeight: 500
+              }}
+            >
+              {data.nombre}
+            </span>
+          </Grid>
+          {/****************************************** */}
+          {/****************************************** */}
+          <Grid item xs="12" sm="3">
+            <span>{data.modelo}</span>
+          </Grid>
+          {/****************************************** */}
+          {/****************************************** */}
+          <Grid item xs="12" sm="2">
+            <span>{data.marca}</span>
+          </Grid>
+          {/****************************************** */}
+          {/****************************************** */}
+          <Grid item xs="12" sm="3">
+            <span>{cuUbicacion}</span> / <span>{cuSala}</span>
+          </Grid>
+          {/****************************************** */}
+          {/****************************************** */}
+          <Grid item xs="12" sm="1">
+            <Box display="flex">
+              <Link to={`dispositivos/key=${data.key}`}>
+                <IconButton color="primary">
+                  <Icon>visibility</Icon>
+                </IconButton>
+              </Link>
+              <IconButton
+                onClick={() => {
+                  deleteDispositivo(data.key);
+                }}
+                color="secondary"
+              >
+                <Icon>delete</Icon>
+              </IconButton>
+            </Box>
+          </Grid>
+          {/****************************************** */}
+        </Grid>
+      </Card>
+    </Grid>
+  );
+};

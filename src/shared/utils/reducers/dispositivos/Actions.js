@@ -70,6 +70,17 @@ export const addDISPOSITIVOS = data => dispatch => {
   } catch (error) {}
 };
 
+export const updateDISPOSITIVOS = (data, key) => dispatch => {
+  // Removing element by key
+  // NOTE: Once this is executed the listener will be on fetchPrueba (child_removed)
+
+  try {
+    database()
+      .ref(REFERENCIA)
+      .child(key)
+      .update(data);
+  } catch (error) {}
+};
 export const deleteDISPOSITIVOS = key => dispatch => {
   // Dispatching our DELETE_DISPOSITIVOS_REQUEST action
   dispatch(request(DELETE_DISPOSITIVOS_REQUEST));

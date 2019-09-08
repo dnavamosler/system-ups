@@ -9,7 +9,11 @@ import TextWithAdorn from "../../components/pickers/TextWithAdorn";
 import FechaPicker from "../../components/pickers/FechaPicker";
 import CreableSelect from "../../components/pickers/CreableSelect";
 import ButtonSTD from "../../components/ButtonSTD";
-import { addDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+import {
+  addDISPOSITIVOS,
+  deleteDISPOSITIVOS,
+  updateDISPOSITIVOS
+} from "../../shared/utils/reducers/dispositivos/Actions";
 import { addUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
 import { addSALA } from "../../shared/utils/reducers/sala/Actions";
 import { addEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
@@ -17,8 +21,11 @@ import { useToasts } from "react-toast-notifications";
 import { trowNotification } from "../../functions/otros";
 import MySwitch from "../../components/pickers/MySwitch";
 import CreableList from "../../components/pickers/creableList";
+import moment from "moment";
+import { Link, withRouter } from "react-router-dom";
+
 /****************************************************************************************/
-const FormularioDispositivos = ({ update }) => {
+const FormularioDispositivos = ({ data, history }) => {
   const classes = useStyles();
 
   const { addToast } = useToasts();
@@ -26,9 +33,25 @@ const FormularioDispositivos = ({ update }) => {
   const dispatch = useDispatch();
 
   //enviar data
-  const submit = data => {
-    console.log(data);
-    dispatch(addDISPOSITIVOS(data));
+  const submit = values => {
+    const valuesFormateada = {
+      ...values,
+      equiposRespaldo: values.equiposRespaldo.map(item => item.value),
+      sala: values.sala.value,
+      ubicacion: values.ubicacion.value
+    };
+
+    if (!data) {
+      dispatch(addDISPOSITIVOS(valuesFormateada));
+    } else {
+      dispatch(updateDISPOSITIVOS(valuesFormateada, values.key));
+    }
+    history.push("/dispositivos");
+  };
+
+  //eliminar
+  const eliminarDispositivo = key => {
+    dispatch(deleteDISPOSITIVOS(key));
   };
 
   //seleccionables
@@ -48,7 +71,7 @@ const FormularioDispositivos = ({ update }) => {
           <Card>
             <Grid container spacing="1">
               <Grid item xs="12">
-                <h3>{update ? "Actualizar" : "Registrar"} dispositivos</h3>
+                <h3>{data ? "Actualizar" : "Registrar"} dispositivos</h3>
                 <Divider />
               </Grid>
 
@@ -61,21 +84,28 @@ const FormularioDispositivos = ({ update }) => {
                 }}
               >
                 <Formik
-                  initialValues={{
-                    nombre: "",
-                    marca: "",
-                    modelo: "",
-                    fechaInstalacion: new Date(),
-                    ubicacion: "",
-                    sala: "",
-                    autonomia: "",
-                    potencia: "",
-                    equiposRespaldo: [],
-                    bateria: false,
-                    byPass: false,
-                    rackApc: false,
-                    mantenimientos: []
-                  }}
+                  enableReinitialize={true}
+                  initialValues={
+                    data && data != null
+                      ? data
+                      : {
+                          autonomia: "",
+                          bateria: false,
+                          byPass: false,
+                          comentarios: "",
+                          equiposRespaldo: [],
+                          fechaInstalacion: moment().format("DD/MM/YYYY"),
+                          nombre: "",
+                          ip: "",
+                          marca: "",
+                          modelo: "",
+                          ubicacion: "",
+                          sala: "",
+                          potencia: "",
+                          rackApc: false,
+                          ping: false
+                        }
+                  }
                   render={({ values, setFieldValue }) => (
                     <Grid container spacing="3">
                       {/************** Nombre de dispositivo */}
@@ -283,7 +313,11 @@ const FormularioDispositivos = ({ update }) => {
                             name="bateria"
                             render={({ field }) => (
                               <Grid item>
-                                <MySwitch {...field} label="Banco de bateria" />
+                                <MySwitch
+                                  {...field}
+                                  checked={values[field.name]}
+                                  label="Banco de bateria"
+                                />
                               </Grid>
                             )}
                           />
@@ -293,7 +327,11 @@ const FormularioDispositivos = ({ update }) => {
                             name="byPass"
                             render={({ field }) => (
                               <Grid item>
-                                <MySwitch {...field} label="Tablero By-pass" />
+                                <MySwitch
+                                  {...field}
+                                  checked={values[field.name]}
+                                  label="Tablero By-pass"
+                                />
                               </Grid>
                             )}
                           />
@@ -304,7 +342,11 @@ const FormularioDispositivos = ({ update }) => {
                             name="rackApc"
                             render={({ field }) => (
                               <Grid item>
-                                <MySwitch {...field} label="Racks APC" />
+                                <MySwitch
+                                  {...field}
+                                  checked={values[field.name]}
+                                  label="Racks APC"
+                                />
                               </Grid>
                             )}
                           />
@@ -313,7 +355,11 @@ const FormularioDispositivos = ({ update }) => {
                             name="ping"
                             render={({ field }) => (
                               <Grid item>
-                                <MySwitch {...field} label="Ping en red" />
+                                <MySwitch
+                                  {...field}
+                                  checked={values[field.name]}
+                                  label="Ping en red"
+                                />
                               </Grid>
                             )}
                           />
@@ -400,19 +446,30 @@ const FormularioDispositivos = ({ update }) => {
                                 submit(values);
                               }}
                             >
-                              Procesar
+                              {data ? "Actualizar" : "Procesar"}
                             </ButtonSTD>
                           </Grid>
+                          {/************** ENVIAR */}
+                          {data && (
+                            <Grid item>
+                              <ButtonSTD
+                                icon="delete"
+                                color="secondary"
+                                onClick={() => {
+                                  eliminarDispositivo(values.key);
+                                  history.push("/dispositivos");
+                                }}
+                              >
+                                Eliminar
+                              </ButtonSTD>
+                            </Grid>
+                          )}
                           {/********************************** */}
                           {/************** ENVIAR */}
                           <Grid item>
-                            <ButtonSTD
-                              onClick={() => {}}
-                              icon="delete"
-                              color="secondary"
-                            >
-                              Cancelar
-                            </ButtonSTD>
+                            <Link to="/dispositivos">
+                              <ButtonSTD icon="close">Cancelar</ButtonSTD>
+                            </Link>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -432,4 +489,4 @@ const FormularioDispositivos = ({ update }) => {
 const useStyles = makeStyles(({}) => ({
   root: {}
 }));
-export default FormularioDispositivos;
+export default withRouter(FormularioDispositivos);

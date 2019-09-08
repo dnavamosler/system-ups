@@ -56,8 +56,12 @@ const Inicio = () => {
     <Grid container spacing={3}>
       {/* Chart */}
       <Grid item xs={12} md={8} lg={9}>
-        <Paper className={fixedHeightPaper}>
-          <Grid container spacing="1">
+        <Paper
+          style={{
+            padding: 20
+          }}
+        >
+          <Grid container spacing="3">
             <Grid item xs="12" md="6">
               {/* <Chart /> */}
               <Title>Mantenimientos realizados</Title>

@@ -23,7 +23,8 @@ import { firebaseConfig } from "../../config/firebase";
 import { getDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
 import { getUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
 import { getSALA } from "../../shared/utils/reducers/sala/Actions";
-
+//NOTIFICATIONS
+import { ToastProvider } from "react-toast-notifications";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -183,7 +184,7 @@ const Dashboard = ({ children }) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {children}
+          <ToastProvider>{children} </ToastProvider>
         </Container>
       </main>
     </div>

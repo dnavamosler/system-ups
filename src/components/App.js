@@ -18,26 +18,23 @@ import RutasDispositivos from "../pages/dispositivos/RutasDispositivos";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 
-//NOTIFICATIONS
-import { ToastProvider, useToasts } from "react-toast-notifications";
+import { makeStyles } from "@material-ui/core";
 const store = configureStore({});
 
 function App() {
   return (
     <Provider store={store}>
-      <ToastProvider>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
-          <BrowserRouter>
-            <Switch>
-              {/**Rutas de inicio */}
-              <Dashboard>
-                <RutasInicio />
-                <RutasDispositivos />
-              </Dashboard>
-            </Switch>
-          </BrowserRouter>
-        </MuiPickersUtilsProvider>
-      </ToastProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <BrowserRouter basename="/">
+          <Switch>
+            {/**Rutas de inicio */}
+            <Dashboard>
+              <RutasInicio />
+              <RutasDispositivos />
+            </Dashboard>
+          </Switch>
+        </BrowserRouter>
+      </MuiPickersUtilsProvider>
     </Provider>
   );
 }

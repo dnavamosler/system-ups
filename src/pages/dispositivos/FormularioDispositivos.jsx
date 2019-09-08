@@ -5,7 +5,7 @@ import { Grid, Divider, TextField } from "@material-ui/core";
 import HeaderPage from "../../components/HeaderPage";
 import Card from "../../components/Card";
 import { Formik, Field } from "formik";
-
+import TextWithAdorn from "../../components/TextWithAdorn";
 import FechaPicker from "../../components/pickers/FechaPicker";
 import CreableSelect from "../../components/pickers/CreableSelect";
 import ButtonSTD from "../../components/ButtonSTD";
@@ -14,6 +14,7 @@ import { addUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
 import { addSALA } from "../../shared/utils/reducers/sala/Actions";
 import { useToasts } from "react-toast-notifications";
 import { trowNotification } from "../../functions/otros";
+import MySwitch from "../../components/MySwitch";
 /****************************************************************************************/
 const FormularioDispositivos = ({ update }) => {
   const classes = useStyles();
@@ -63,7 +64,9 @@ const FormularioDispositivos = ({ update }) => {
                     modelo: "",
                     fechaInstalacion: new Date(),
                     ubicacion: "",
-                    sala: ""
+                    sala: "",
+                    autonomia: "",
+                    potencia: ""
                   }}
                   render={({ values, setFieldValue }) => (
                     <Grid container spacing="3">
@@ -193,6 +196,77 @@ const FormularioDispositivos = ({ update }) => {
                           </Grid>
                         )}
                       />
+                      {/***************************************** */}
+                      {/************** potencia */}
+                      <Field
+                        name="potencia"
+                        render={({ field }) => (
+                          <Grid item xs="12" md="6">
+                            <TextWithAdorn
+                              type="number"
+                              label="Potencia"
+                              adorno={"KVA"}
+                              {...field}
+                            />
+                          </Grid>
+                        )}
+                      />
+                      {/***************************************** */}
+                      {/***************************************** */}
+                      {/************** autonomia */}
+                      <Field
+                        name="autonomia"
+                        render={({ field }) => (
+                          <Grid item xs="12" md="6">
+                            <TextWithAdorn
+                              type="number"
+                              label="Autonomia"
+                              adorno={"Hrs."}
+                              {...field}
+                            />
+                          </Grid>
+                        )}
+                      />
+                      {/***************************************** */}
+                      {/************** otros */}
+                      <Grid item xs="12" md="6">
+                        <Grid container spacing="1" justify="space-between">
+                          <Grid item xs="12">
+                            <h3>Otras opciones</h3>
+                            <Divider />
+                          </Grid>
+                          {/**************************************************** */}
+                          <Field
+                            name="bateria"
+                            render={({ field }) => (
+                              <Grid item>
+                                <MySwitch {...field} label="Banco de bateria" />
+                              </Grid>
+                            )}
+                          />
+                          {/**************************************************** */}
+                          {/**************************************************** */}
+                          <Field
+                            name="byPass"
+                            render={({ field }) => (
+                              <Grid item>
+                                <MySwitch {...field} label="Tablero By-pass" />
+                              </Grid>
+                            )}
+                          />
+                          {/**************************************************** */}
+                          {/**************************************************** */}
+                          <Field
+                            name="rackApc"
+                            render={({ field }) => (
+                              <Grid item>
+                                <MySwitch {...field} label="Racks APC" />
+                              </Grid>
+                            )}
+                          />
+                          {/**************************************************** */}
+                        </Grid>
+                      </Grid>
                       {/***************************************** */}
                       <Grid item xs="12">
                         <Grid container spacing="3">

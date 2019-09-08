@@ -11,7 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
-
+import Logo from "../../shared/images/logo.png";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -26,6 +26,7 @@ import { getSALA } from "../../shared/utils/reducers/sala/Actions";
 //NOTIFICATIONS
 import { ToastProvider } from "react-toast-notifications";
 import { getEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
+import { getMANTENIMIENTO } from "../../shared/utils/reducers/mantenimiento/Actions";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -118,6 +119,7 @@ const Dashboard = ({ children }) => {
     dispatch(getUBICACION());
     dispatch(getSALA());
     dispatch(getEQUIPOS_RESPALDO());
+    dispatch(getMANTENIMIENTO());
   }, []);
 
   const classes = useStyles();
@@ -150,6 +152,15 @@ const Dashboard = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
+
+          <img
+            src={Logo}
+            height="45px"
+            alt="logo"
+            style={{
+              marginRight: 20
+            }}
+          />
           <Typography
             component="h1"
             variant="h6"
@@ -157,13 +168,13 @@ const Dashboard = ({ children }) => {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            MONITOR UPS
           </Typography>
-          <IconButton color="inherit">
+          {/* <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       <Drawer

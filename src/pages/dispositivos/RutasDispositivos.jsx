@@ -6,6 +6,8 @@ import { Route } from "react-router-dom";
 import MostrarDispositivos from "./MostrarDispositivos";
 import FormularioDispositivos from "./FormularioDispositivos";
 import UpdateDispositivos from "./updateDispositivos";
+import Mantenimiento from "./Mantenimientos";
+import NuevoMantenimiento from "./NuevoMantenimiento";
 const RutasDispositivos = (
   {
     /**000 */
@@ -20,6 +22,12 @@ const RutasDispositivos = (
       />
       <Route
         exact
+        path="/dispositivos/key=:idDispositivo/mantenimiento"
+        component={Mantenimiento}
+      />
+
+      <Route
+        exact
         path="/dispositivos/key=:idDispositivo"
         component={UpdateDispositivos}
       />
@@ -27,6 +35,11 @@ const RutasDispositivos = (
         exact
         path="/dispositivos/registrar"
         component={() => <FormularioDispositivos />}
+      />
+      <Route
+        exact
+        path="/mantenimiento/key=:idDispositivo"
+        component={NuevoMantenimiento}
       />
     </>
   );

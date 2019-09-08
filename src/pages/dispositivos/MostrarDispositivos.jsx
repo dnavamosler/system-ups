@@ -192,6 +192,14 @@ const DispositivoItem = ({ data }) => {
                     </Link>{" "}
                   </Grid>
                   <Grid item xs="12">
+                    <Link to={`dispositivos/key=${data.key}/mantenimiento`}>
+                      <IconButton color="primary">
+                        <Icon>calendar_today</Icon>
+                      </IconButton>
+                      Mantenimiento
+                    </Link>{" "}
+                  </Grid>
+                  <Grid item xs="12">
                     <IconButton
                       onClick={() => {
                         deleteDispositivo(data.key);

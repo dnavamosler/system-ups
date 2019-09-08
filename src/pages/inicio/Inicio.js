@@ -1,25 +1,74 @@
 import React from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
-
+import { useSelector } from "react-redux";
 import { Grid, Paper } from "@material-ui/core";
 
 //dependencies
 import Chart from "./Chart";
 import CantidadUps from "./cantidadUps";
 import Orders from "./Orders";
+import BarChart from "../../components/BarChart";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
+import Title from "./Title";
+import moment from "moment";
+import ListaMantenimientosPendientes from "./ListaMantenimientosPendientes";
 
 const Inicio = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const mantenimientos = useSelector(state => state.MANTENIMIENTO).data;
+
+  const [dataMantenimiento, setDataMantenimiento] = React.useState([]);
+
+  React.useEffect(() => {
+    try {
+      let data_final = [];
+
+      mantenimientos.forEach(item => {
+        const data = {
+          name: moment()
+            .month(item.fecha.split("/")[1] - 1)
+            .format("MMMM")
+        };
+
+        if (data_final.find(item2 => data.name == item2.name)) {
+          data_final = data_final.map(item3 => {
+            if (item3.name == data.name)
+              return {
+                ...item3,
+                mantenimiento: item3.mantenimiento + 1
+              };
+            else return item3;
+          });
+        } else {
+          data_final = [...data_final, { ...data, mantenimiento: 1 }];
+        }
+      });
+      setDataMantenimiento(data_final);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [mantenimientos]);
 
   return (
     <Grid container spacing={3}>
       {/* Chart */}
       <Grid item xs={12} md={8} lg={9}>
         <Paper className={fixedHeightPaper}>
-          <Chart />
+          <Grid container spacing="1">
+            <Grid item xs="12" md="6">
+              {/* <Chart /> */}
+              <Title>Mantenimientos realizados</Title>
+              <BarChart data={dataMantenimiento} label="mantenimiento" />
+            </Grid>
+            <Grid item xs="12" md="6">
+              {/* <Chart /> */}
+              <Title>Mantenimientos pendientes</Title>
+              <ListaMantenimientosPendientes />
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
       {/* Recent cantidadUps */}

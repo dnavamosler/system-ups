@@ -65,9 +65,23 @@ const ListaMantenimientosPendientes = (
             );
 
             if (encontrado) {
-              const dateEncontrado = moment(encontrado);
-              const actual = moment(mantenimiento);
-              if (dateEncontrado.isAfter(actual)) {
+              const dataMantenimientoFormat = mantenimiento.fecha.split("/");
+              const dataEncontradoFormat = encontrado.fecha.split("/");
+              {
+                /************************************************************* */
+              }
+              const dateEncontrado = `${dataEncontradoFormat[2]}/${
+                dataEncontradoFormat[1]
+              }/${dataEncontradoFormat[0]}`;
+              const actual = `${dataMantenimientoFormat[2]}/${
+                dataMantenimientoFormat[1]
+              }/${dataMantenimientoFormat[0]}`;
+
+              {
+                /************************************************************ */
+              }
+
+              if (moment(actual).isAfter(dateEncontrado)) {
                 dispositivosMantenimiento = dispositivosMantenimiento.map(
                   item3 => {
                     if (item3.key == encontrado.key) {
@@ -111,7 +125,7 @@ const ListaMantenimientosPendientes = (
     } catch (error) {
       console.log(error);
     }
-  }, [mantenimientos, configuracion]);
+  }, [mantenimientos, configuracion, dispositivos]);
 
   return (
     <div className={classes.root}>
@@ -120,7 +134,6 @@ const ListaMantenimientosPendientes = (
           item2 => item2.key == item.FK_ID_dispositivo
         );
 
-        console.log(dispositivo);
         return (
           <Grid container spacing="1" alignItems="center">
             <Grid item xs>

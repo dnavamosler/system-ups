@@ -21,6 +21,9 @@ import { useDispatch } from "react-redux";
 import firebase from "firebase";
 import { firebaseConfig } from "../../config/firebase";
 import { getDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+import { getUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
+import { getSALA } from "../../shared/utils/reducers/sala/Actions";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -110,6 +113,8 @@ const Dashboard = ({ children }) => {
     firebase.initializeApp(firebaseConfig);
 
     dispatch(getDISPOSITIVOS());
+    dispatch(getUBICACION());
+    dispatch(getSALA());
   }, []);
 
   const classes = useStyles();
@@ -124,6 +129,7 @@ const Dashboard = ({ children }) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
+
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}

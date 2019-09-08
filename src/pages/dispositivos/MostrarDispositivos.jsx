@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 /****************************************************************************************/
+import { Grid } from "@material-ui/core";
+import HeaderPage from "../../components/HeaderPage";
 import { addDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+import Card from "../../components/Card";
+import ButtonSTD from "../../components/ButtonSTD";
+import { Link } from "react-router-dom";
 const MostrarDispositivos = (
   {
     /**000 */
@@ -11,15 +16,28 @@ const MostrarDispositivos = (
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const createDispositivo = () => {
-    dispatch(addDISPOSITIVOS({ nombre: "daniel" }));
-  };
-
   return (
     <div className={classes.root}>
-      {" "}
-      aqui dispositivos asdasds
-      <button onClick={createDispositivo}>agregar </button>
+      <Grid container spacing="2">
+        {/**Cabecera */}
+        <Grid item xs="12">
+          <HeaderPage icon="devices">Gestión de dispositivos</HeaderPage>
+        </Grid>
+        {/**Funciones */}
+        <Grid item xs="12">
+          <Card>
+            <Grid container spacing="1">
+              <Grid item>
+                <Link to="/dispositivos/registrar">
+                  <ButtonSTD color="primary" icon="add">
+                    Nuevo Dispositivo
+                  </ButtonSTD>
+                </Link>
+              </Grid>
+            </Grid>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 };

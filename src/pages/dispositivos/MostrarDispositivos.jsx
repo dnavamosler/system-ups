@@ -9,6 +9,7 @@ import Card from "../../components/Card";
 import ButtonSTD from "../../components/ButtonSTD";
 import { Link } from "react-router-dom";
 import { deleteDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
+import OptionButton from "../../components/Options";
 const MostrarDispositivos = ({}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -170,21 +171,32 @@ const DispositivoItem = ({ data }) => {
           {/****************************************** */}
           {/****************************************** */}
           <Grid item xs="12" sm="1">
-            <Box display="flex">
-              <Link to={`dispositivos/key=${data.key}`}>
-                <IconButton color="primary">
-                  <Icon>visibility</Icon>
-                </IconButton>
-              </Link>
-              <IconButton
-                onClick={() => {
-                  deleteDispositivo(data.key);
-                }}
-                color="secondary"
-              >
-                <Icon>delete</Icon>
-              </IconButton>
-            </Box>
+            <OptionButton
+              options={
+                <Grid container>
+                  <Grid item xs="12">
+                    <Link to={`dispositivos/key=${data.key}`}>
+                      <IconButton color="primary">
+                        <Icon>visibility</Icon>
+                      </IconButton>
+                      Ver
+                    </Link>{" "}
+                  </Grid>
+                  <Grid item xs="12">
+                    <IconButton
+                      onClick={() => {
+                        deleteDispositivo(data.key);
+                      }}
+                      color="secondary"
+                    >
+                      <Icon>delete</Icon>
+                    </IconButton>
+                    Eliminar
+                  </Grid>
+                </Grid>
+              }
+            />
+            {/*  */}
           </Grid>
           {/****************************************** */}
         </Grid>

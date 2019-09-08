@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
-import { Grid, Divider, TextField } from "@material-ui/core";
+import { Grid, Divider, TextField, IconButton, Icon } from "@material-ui/core";
 import HeaderPage from "../../components/HeaderPage";
 import Card from "../../components/Card";
 import { Formik, Field } from "formik";
-import TextWithAdorn from "../../components/TextWithAdorn";
+import TextWithAdorn from "../../components/pickers/TextWithAdorn";
 import FechaPicker from "../../components/pickers/FechaPicker";
 import CreableSelect from "../../components/pickers/CreableSelect";
 import ButtonSTD from "../../components/ButtonSTD";
 import { addDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
 import { addUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
 import { addSALA } from "../../shared/utils/reducers/sala/Actions";
+import { addEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
 import { useToasts } from "react-toast-notifications";
 import { trowNotification } from "../../functions/otros";
-import MySwitch from "../../components/MySwitch";
+import MySwitch from "../../components/pickers/MySwitch";
+import CreableList from "../../components/pickers/creableList";
 /****************************************************************************************/
 const FormularioDispositivos = ({ update }) => {
   const classes = useStyles();
@@ -32,6 +34,7 @@ const FormularioDispositivos = ({ update }) => {
   //seleccionables
   const ubicaciones = useSelector(state => state.UBICACION).data;
   const salas = useSelector(state => state.SALA).data;
+  const EquiposRespaldo = useSelector(state => state.EQUIPOS_RESPALDO).data;
 
   return (
     <div className={classes.root}>
@@ -66,7 +69,11 @@ const FormularioDispositivos = ({ update }) => {
                     ubicacion: "",
                     sala: "",
                     autonomia: "",
-                    potencia: ""
+                    potencia: "",
+                    equiposRespaldo: [],
+                    bateria: false,
+                    byPass: false,
+                    rackApc: false
                   }}
                   render={({ values, setFieldValue }) => (
                     <Grid container spacing="3">
@@ -158,7 +165,7 @@ const FormularioDispositivos = ({ update }) => {
                         )}
                       />
                       {/***************************************** */}
-                      {/************** Ubicacion */}
+                      {/************** SALA */}
                       <Field
                         name="sala"
                         render={({ field }) => (
@@ -192,6 +199,21 @@ const FormularioDispositivos = ({ update }) => {
                                   })
                                 );
                               }}
+                            />
+                          </Grid>
+                        )}
+                      />
+                      {/***************************************** */}
+                      {/************** potencia */}
+                      <Field
+                        name="ip"
+                        render={({ field }) => (
+                          <Grid item xs="12" md="6">
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label="Dirección ip"
+                              variant="outlined"
                             />
                           </Grid>
                         )}
@@ -266,6 +288,41 @@ const FormularioDispositivos = ({ update }) => {
                           />
                           {/**************************************************** */}
                         </Grid>
+                      </Grid>
+                      {/************** EQUIPOS CONECTADOS */}
+                      <Grid item xs="12" md="6">
+                        <CreableList
+                          onChange={e => {
+                            setFieldValue("equiposRespaldo", [
+                              e,
+                              ...values.equiposRespaldo
+                            ]);
+                          }}
+                          lista={values.equiposRespaldo}
+                          suggestions={EquiposRespaldo.filter(item => {
+                            if (
+                              !values.equiposRespaldo.find(
+                                item2 => item2.value == item.key
+                              )
+                            )
+                              return true;
+                          }).map(item => ({
+                            label: item.descripcion,
+                            value: item.key
+                          }))}
+                          crear={e => {
+                            dispatch(addEQUIPOS_RESPALDO({ descripcion: e }));
+                          }}
+                          titulo="  ¿Que equipos tiene conectados y respaldando?"
+                          DeleteItem={e => {
+                            setFieldValue(
+                              "equiposRespaldo",
+                              values.equiposRespaldo.filter(
+                                item => item.value != e
+                              )
+                            );
+                          }}
+                        />
                       </Grid>
                       {/***************************************** */}
                       <Grid item xs="12">

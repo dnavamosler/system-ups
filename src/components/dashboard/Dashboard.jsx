@@ -25,6 +25,7 @@ import { getUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
 import { getSALA } from "../../shared/utils/reducers/sala/Actions";
 //NOTIFICATIONS
 import { ToastProvider } from "react-toast-notifications";
+import { getEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -116,6 +117,7 @@ const Dashboard = ({ children }) => {
     dispatch(getDISPOSITIVOS());
     dispatch(getUBICACION());
     dispatch(getSALA());
+    dispatch(getEQUIPOS_RESPALDO());
   }, []);
 
   const classes = useStyles();

@@ -3,7 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { Button, Grid, Icon } from "@material-ui/core";
 /****************************************************************************************/
-const ButtonSTD = ({ children, icon, color = "default", onClick }) => {
+const ButtonSTD = ({
+  children,
+  icon,
+  color = "default",
+  onClick,
+  disabled = false
+}) => {
   const classes = useStyles();
   return (
     <Button
@@ -12,6 +18,7 @@ const ButtonSTD = ({ children, icon, color = "default", onClick }) => {
       color={color}
       className={classes.root}
       onClick={onClick}
+      disabled={disabled}
     >
       <Grid container spacing="1" alignItems="center" alignContent="center">
         {icon && (

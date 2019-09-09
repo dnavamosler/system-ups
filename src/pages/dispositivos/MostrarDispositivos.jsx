@@ -215,8 +215,7 @@ const ListaDispositivos = ({}) => {
       </Grid>
       {dispositivos.length < 1 ? (
         <Grid item xs="12">
-          {" "}
-          <Empty />{" "}
+          <Empty />
         </Grid>
       ) : (
         dispositivos.map(item => <DispositivoItem data={item} />)

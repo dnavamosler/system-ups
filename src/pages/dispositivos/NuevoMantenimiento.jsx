@@ -82,6 +82,7 @@ const NuevoMantenimiento = ({
                     {/*************************** */}
                     <Grid item>
                       <ButtonSTD
+                        disabled={values.comentario == ""}
                         onClick={() => {
                           guardar(values);
                         }}

@@ -62,10 +62,9 @@ const ListaMantenimientosPendientes = (
           const fecha = moment(item.fecha, "DD/MM/YYYY");
           const diferencia = moment().diff(fecha, "months");
 
-          if (item.FK_ID_dispositivo == "-LoHm06a3GghyXnHWjWa")
-            if (diferencia >= periodoMAX) {
-              finalDATA = [...finalDATA, item];
-            }
+          if (diferencia >= periodoMAX) {
+            finalDATA = [...finalDATA, item];
+          }
         });
         setPendMantenimientos(finalDATA);
       }
@@ -107,6 +106,8 @@ const ListaMantenimientosPendientes = (
 /****************************************************************************************/
 /****************************************************************************************/
 const useStyles = makeStyles(({}) => ({
-  root: {}
+  root: {
+    width: "80%"
+  }
 }));
 export default ListaMantenimientosPendientes;

@@ -129,9 +129,7 @@ export default function SignUp() {
                 <Grid item xs="12">
                   <RouterLink to="/login">
                     {" "}
-                    <Link variant="body2">
-                      Already have an account? Sign in
-                    </Link>
+                    <Link variant="body2">Ya tienes cuenta? Ingresa ahora</Link>
                   </RouterLink>
                 </Grid>
               </Grid>

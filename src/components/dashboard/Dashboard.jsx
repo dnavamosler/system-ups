@@ -126,12 +126,6 @@ const Dashboard = ({ children }) => {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div className={classes.root}>
@@ -142,25 +136,14 @@ const Dashboard = ({ children }) => {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
-          >
-            <MenuIcon />
-          </IconButton>
-
           <img
             src={Logo}
             height="45px"
             alt="logo"
             style={{
-              marginRight: 20
+              marginLeft: !open ? 80 : 0,
+              marginRight: 20,
+              transition: ".3s"
             }}
           />
           <Typography
@@ -187,7 +170,11 @@ const Dashboard = ({ children }) => {
         open={open}
       >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>

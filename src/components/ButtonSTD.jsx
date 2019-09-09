@@ -8,7 +8,8 @@ const ButtonSTD = ({
   icon,
   color = "default",
   onClick,
-  disabled = false
+  disabled = false,
+  style
 }) => {
   const classes = useStyles();
   return (
@@ -19,6 +20,7 @@ const ButtonSTD = ({
       className={classes.root}
       onClick={onClick}
       disabled={disabled}
+      style={style}
     >
       <Grid container spacing="1" alignItems="center" alignContent="center">
         {icon && (

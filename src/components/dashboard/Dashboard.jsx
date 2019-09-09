@@ -18,16 +18,12 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
 //redux and firebase
 import { useDispatch } from "react-redux";
-import firebase from "firebase";
-import { firebaseConfig } from "../../config/firebase";
-import { getDISPOSITIVOS } from "../../shared/utils/reducers/dispositivos/Actions";
-import { getUBICACION } from "../../shared/utils/reducers/ubicacion/Actions";
-import { getSALA } from "../../shared/utils/reducers/sala/Actions";
+
 //NOTIFICATIONS
 import { ToastProvider } from "react-toast-notifications";
-import { getEQUIPOS_RESPALDO } from "../../shared/utils/reducers/equiposRespaldo/Actions";
-import { getMANTENIMIENTO } from "../../shared/utils/reducers/mantenimiento/Actions";
-import { getCONFIGURACION } from "../../shared/utils/reducers/configuracion/Actions";
+import { Icon, Tooltip } from "@material-ui/core";
+import withFirebaseAuth from "react-with-firebase-auth";
+import { providers, firebaseAppAuth } from "../FirebaseComp";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -109,24 +105,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Dashboard = ({ children }) => {
+const Dashboard = ({ children, signOut, user }) => {
   const dispatch = useDispatch();
-
-  //*** INICIALIZACION DE FIREBASE */
-  React.useEffect(() => {
-    firebase.initializeApp(firebaseConfig);
-
-    dispatch(getDISPOSITIVOS());
-    dispatch(getUBICACION());
-    dispatch(getSALA());
-    dispatch(getEQUIPOS_RESPALDO());
-    dispatch(getMANTENIMIENTO());
-    dispatch(getCONFIGURACION());
-  }, []);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
+  const getUserName = () => {
+    try {
+      return <span style={{ fontWeight: 600 }}> Hola, {user.displayName}</span>;
+    } catch (error) {
+      return <span style={{ fontWeight: 600 }}> Bienvenido</span>;
+    }
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -155,11 +146,12 @@ const Dashboard = ({ children }) => {
           >
             MONITOR UPS
           </Typography>
-          {/* <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
+          {getUserName()}
+          <Tooltip title="cerrar sesión">
+            <IconButton onClick={signOut} color="inherit">
+              <Icon>exit_to_app</Icon>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -192,4 +184,7 @@ const Dashboard = ({ children }) => {
     </div>
   );
 };
-export default Dashboard;
+export default withFirebaseAuth({
+  providers,
+  firebaseAppAuth
+})(Dashboard);

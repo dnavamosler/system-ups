@@ -38,7 +38,8 @@ const FormularioDispositivos = ({ data, history }) => {
       ...values,
       equiposRespaldo: values.equiposRespaldo.map(item => item.value),
       sala: values.sala.value,
-      ubicacion: values.ubicacion.value
+      ubicacion: values.ubicacion.value,
+      fechaInstalacion: values.fechaInstalacion.format("DD/MM/YYYY")
     };
 
     if (!data) {
@@ -94,7 +95,7 @@ const FormularioDispositivos = ({ data, history }) => {
                           byPass: false,
                           comentarios: "",
                           equiposRespaldo: [],
-                          fechaInstalacion: moment().format("DD/MM/YYYY"),
+                          fechaInstalacion: moment(),
                           nombre: "",
                           ip: "",
                           marca: "",
@@ -159,10 +160,7 @@ const FormularioDispositivos = ({ data, history }) => {
                               label="Fecha de instalación"
                               {...field}
                               onChange={date => {
-                                setFieldValue(
-                                  "fechaInstalacion",
-                                  date.format()
-                                );
+                                setFieldValue("fechaInstalacion", date);
                               }}
                             />
                           </Grid>

@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useSelector } from "react-redux";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Box } from "@material-ui/core";
 
 //dependencies
 
@@ -63,14 +63,27 @@ const Inicio = () => {
         >
           <Grid container spacing="3">
             <Grid item xs="12" md="6">
-              {/* <Chart /> */}
-              <Title>Mantenimientos realizados</Title>
-              <BarChart data={dataMantenimiento} label="mantenimiento" />
+              <Box
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Title>Mantenimientos realizados</Title>
+                <BarChart data={dataMantenimiento} label="mantenimiento" />
+              </Box>
             </Grid>
             <Grid item xs="12" md="6">
               {/* <Chart /> */}
-              <Title>Mantenimientos pendientes</Title>
-              <ListaMantenimientosPendientes />
+              <Box
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Title>Mantenimientos pendientes</Title>
+                <ListaMantenimientosPendientes />
+              </Box>
             </Grid>
           </Grid>
         </Paper>

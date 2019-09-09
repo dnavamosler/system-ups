@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Divider, IconButton, Icon } from "@material-ui/core";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Empty from "../../components/Empty";
 
 /****************************************************************************************/
 const ListaMantenimientosPendientes = (
@@ -73,29 +74,33 @@ const ListaMantenimientosPendientes = (
 
   return (
     <div className={classes.root}>
-      {pendMantenimientos.map(item => {
-        const dispositivo = dispositivos.find(
-          item2 => item2.key == item.FK_ID_dispositivo
-        );
+      {pendMantenimientos.length < 1 ? (
+        <Empty icon="check" description="Excelente, los UPS estan al día." />
+      ) : (
+        pendMantenimientos.map(item => {
+          const dispositivo = dispositivos.find(
+            item2 => item2.key == item.FK_ID_dispositivo
+          );
 
-        return (
-          <Grid container spacing="1" alignItems="center">
-            <Grid item xs>
-              {dispositivo.nombre}
+          return (
+            <Grid container spacing="1" alignItems="center">
+              <Grid item xs>
+                {dispositivo.nombre}
+              </Grid>
+              <Grid item>
+                <Link to={`/dispositivos/key=${dispositivo.key}/mantenimiento`}>
+                  <IconButton>
+                    <Icon>visibility</Icon>
+                  </IconButton>
+                </Link>
+              </Grid>
+              <Grid item xs="12">
+                <Divider />
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to={`/dispositivos/key=${dispositivo.key}/mantenimiento`}>
-                <IconButton>
-                  <Icon>visibility</Icon>
-                </IconButton>
-              </Link>
-            </Grid>
-            <Grid item xs="12">
-              <Divider />
-            </Grid>
-          </Grid>
-        );
-      })}
+          );
+        })
+      )}
     </div>
   );
 };

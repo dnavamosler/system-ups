@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import MostrarDispositivos from "./MostrarDispositivos";
 import FormularioDispositivos from "./FormularioDispositivos";
+import moment from "moment";
 /****************************************************************************************/
 const UpdateDispositivos = ({
   match: {
@@ -36,7 +37,8 @@ const UpdateDispositivos = ({
           };
         }),
         sala: { label: cuSala.descripcion, value: cuSala.key },
-        ubicacion: { label: cuUbicacion.descripcion, value: cuUbicacion.key }
+        ubicacion: { label: cuUbicacion.descripcion, value: cuUbicacion.key },
+        fechaInstalacion: moment(dispositivo.fechaInstalacion, "DD/MM/YYYY")
       };
 
       return dataFinal;

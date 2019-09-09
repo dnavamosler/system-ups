@@ -11,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
 import { useSelector } from "react-redux";
 import { IconButton, Icon, Link as StyleLink } from "@material-ui/core";
+import moment from "moment";
 // Generate Order Data
 
 const useStyles = makeStyles(theme => ({
@@ -27,6 +28,15 @@ export default function Orders() {
   const dispositivos = useSelector(state => state.DISPOSITIVOS).data;
 
   React.useEffect(() => {
+    console.log(dispositivos);
+
+    let dispositivosSorted = dispositivos.sort((a, b) => {
+      if (moment(a.fechaInstalacion).isAfter(b.fechaInstalacion)) return 1;
+      if (moment(b.fechaInstalacion).isAfter(a.fechaInstalacion)) return -1;
+      else return 0;
+    });
+
+    console.log(dispositivosSorted);
     setData(
       dispositivos.map(item => {
         return item;
@@ -45,7 +55,7 @@ export default function Orders() {
             <TableCell>Marca</TableCell>
             <TableCell>Fecha de instalación</TableCell>
 
-            <TableCell align="right">opciones</TableCell>
+            <TableCell align="right">Opciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

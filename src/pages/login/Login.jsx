@@ -71,6 +71,24 @@ const SignIn = props => {
       });
   };
 
+  const loginWithGoogle = () => {
+    firebaseAppAuth
+      .signInWithPopup(providers.googleProvider)
+      .then(e => {
+        console.log(e);
+      })
+      .catch(e => console.log(e));
+    // props.signInWithGoogle();
+    // props
+    // .signInWithPopup(providers.googleProvider)
+    // // .signInWithGoogle()
+    // .then(e => {
+    //   console.log(e);
+    // })
+    // .catch(e => console.log(e));
+    console.log(props);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -144,7 +162,9 @@ const SignIn = props => {
                     <Grid item xs="12">
                       <ButtonSTD
                         style={{ width: "100%" }}
-                        onClick={props.signInWithGoogle}
+                        onClick={() => {
+                          loginWithGoogle();
+                        }}
                       >
                         Ingresar con google
                       </ButtonSTD>

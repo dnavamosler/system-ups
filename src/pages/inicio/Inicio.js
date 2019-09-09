@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Grid, Paper } from "@material-ui/core";
 
 //dependencies
-import Chart from "./Chart";
+
 import CantidadUps from "./cantidadUps";
 import Orders from "./Orders";
 import BarChart from "../../components/BarChart";

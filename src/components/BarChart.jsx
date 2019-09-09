@@ -45,7 +45,7 @@ const MyBarChart = ({ data, label = "" }) => {
   return (
     <BarChart
       width={400}
-      height={170}
+      height={270}
       data={data}
       margin={{
         top: 5,
@@ -54,19 +54,18 @@ const MyBarChart = ({ data, label = "" }) => {
         bottom: 15
       }}
     >
+      <Legend
+        iconType="diamond"
+        wrapperStyle={{
+          bottom: 0
+        }}
+      />
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Legend />
 
-      <Bar
-        style={{
-          marginTop: 30
-        }}
-        dataKey={label}
-        fill="#82ca9d"
-      />
+      <Bar dataKey={label} fill="#82ca9d" />
     </BarChart>
   );
 };

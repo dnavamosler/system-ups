@@ -20,7 +20,7 @@
     "react-select": "^3.0.4",
     "react-toast-notifications": "^2.2.5",
     "react-with-firebase-auth": "^1.0.4",
-    "recharts": "^1.7.1",
+    "recharts": "^2.1.14",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "thunk": "0.0.1",
